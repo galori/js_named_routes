@@ -15,6 +15,11 @@ var Routing = {
 		}
 
 		for (var prop in options) {
+			//perform replace for optional props, example (format=json):
+			// "/avatar/new(.:format)?" ==> "/avatar/new.json"  
+			segments = segments.replace(new RegExp("\\(([^:]*):" + prop + '\\)\\?'),(options[prop] ? '$1' : '') + options[prop])
+			//perform standard replace for required props, example: (id=1)
+			// "/avatar/:id/edit" ==> "/avatar/1/edit"  
 			segments = segments.replace(":"+prop, options[prop]);
 		}
 
